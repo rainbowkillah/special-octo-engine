@@ -1,0 +1,107 @@
+# Dependencies
+node_modules/
+**/node_modules/
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+
+# Build outputs
+build/
+dist/
+public/dist/
+.wrangler/
+**/.wrangler/
+.wvite/
+.vite/
+.vitepress/
+.output/
+.next/
+.nuxt/
+.svelte-kit/
+functions/.wrangler/
+
+# Cloudflare / Workers tooling
+.workers/
+wrangler.jsonc.local
+wrangler.*.local
+**/.dev.vars
+**/.dev.vars.local
+.dev.vars
+.dev.vars.*
+
+# TypeScript & bundler caches
+*.tsbuildinfo
+.esbuild/
+rollup.build.cache
+
+# Logs & diagnostics
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+report.*.json
+
+# Testing & coverage
+coverage/
+*.lcov
+.nyc_output/
+.vitest/
+
+# Environment & secrets
+.env
+.env.*
+!.env.example
+!.env.*.example
+secrets.local.*
+
+# Prompt + agent tooling
+.llm/
+.prompt-cache/
+.plans/cache/
+*.prompt-scratch
+
+# Editors & OS files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.pid
+*.pid.lock
+
+# R2 / data dumps
+r2-exports/
+*.sqlite
+
+# Generated types
+src/server/worker-configuration.d.ts
+
+# Claude / AI assistants local overrides
+# (keep sanitized defaults tracked; place secrets inside .llm/ instead)
+
+# Sensitive credentials & local tooling
+.npmrc
+.netrc
+.docker/config.json
+.aws/
+*.key
+*.pem
+*.p12
+*.crt
+*.csr
+.terraform/
+*.tfstate
+google-cloud-key.json
+.vault-token
+.env.local
+.npmrc.local
+.cache/
+.parcel-cache/
