@@ -89,6 +89,11 @@ Thumbs.db
 r2-exports/
 *.sqlite
 
+# Notion exports (temporary imports)
+🌈*
+*Notion*Export*/
+*RainbowSmoke*CFMonoRepo*/
+
 # Generated types
 src/server/worker-configuration.d.ts
 

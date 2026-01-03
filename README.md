@@ -18,6 +18,7 @@ flows, per-environment configuration, and clear documentation.
 - `com-mrrainbowsmoke` → primary tenant
 - `com-rainbowsmokeofficial` → secondary tenant
 - `com-ai` → third tenant
+- `app-environmenthub` → internal dashboard for managing environment variables, secrets, and bindings
 
 To remove a tenant, delete its directory and update references in:
 `README.md`, `CHANGELOG.md`, `.github/copilot-instructions.md`, and `.llm/`.
@@ -33,6 +34,21 @@ cf/
 ├─ .github/
 │  └─ copilot-instructions.md
 ├─ .llm/                    # Agent prompts, docs, and plans
+├─ app-environmenthub       # Environment Hub Dashboard
+│  ├─ 00prd/
+│  │  ├─ src/               # Worker source code
+│  │  ├─ wrangler.jsonc
+│  │  └─ CHANGELOG.md
+│  ├─ 01stg/
+│  │  ├─ src/
+│  │  ├─ wrangler.jsonc
+│  │  └─ CHANGELOG.md
+│  ├─ 02dev/
+│  │  ├─ src/
+│  │  ├─ wrangler.jsonc
+│  │  └─ CHANGELOG.md
+│  ├─ README.md
+│  └─ CHANGELOG.md
 ├─ com-mrrainbowsmoke       # Tenant A
 │  ├─ 00prd/
 │  │  └─ CHANGELOG.md
