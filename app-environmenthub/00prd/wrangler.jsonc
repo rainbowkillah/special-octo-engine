@@ -1,51 +1,48 @@
 {
-  "name": "environmenthub-prd",
-  "main": "src/index.ts",
-  "compatibility_date": "2026-01-03",
-  "compatibility_flags": ["nodejs_compat"],
-
-  "vars": {
-    "ENV": "prd"
-  },
-
-  // D1 Database binding
-  "d1_databases": [
-    {
-      "binding": "DB",
-      "database_name": "environmenthub-prd",
-      "database_id": "PLACEHOLDER_PRD_DB_ID"
-    }
-  ],
-
-  // KV for caching
-  "kv_namespaces": [
-    {
-      "binding": "CACHE",
-      "id": "PLACEHOLDER_PRD_KV_ID"
-    }
-  ],
-
-  // Scheduled sync every 6 hours (stability)
-  "triggers": {
-    "crons": ["0 */6 * * *"]
-  },
-
-  // Observability
-  "observability": {
-    "enabled": true
-  },
-
-  // Secrets (set via wrangler secret put)
-  // - NOTION_API_KEY
-  // - NOTION_DATABASE_ID
-  // - CF_ACCESS_TEAM_NAME
-  // - CF_ACCESS_AUD
-
-  // Routes (uncomment and configure for custom domain)
-  // "routes": [
-  //   {
-  //     "pattern": "environmenthub.yourdomain.com/*",
-  //     "custom_domain": true
-  //   }
-  // ]
+	"name": "environmenthub-prd",
+	"main": "src/index.ts",
+	"compatibility_date": "2026-01-03",
+	"compatibility_flags": [
+		"nodejs_compat"
+	],
+	"vars": {
+		"ENV": "prd"
+	},
+	// D1 Database binding
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "environmenthub-prd",
+			"database_id": "5567ec3e-7a65-448b-9fc7-7d74670101c5"
+		}
+	],
+	// KV for caching
+	"kv_namespaces": [
+		{
+			"binding": "CACHE",
+			"id": "PLACEHOLDER_PRD_KV_ID"
+		}
+	],
+	// Scheduled sync every 6 hours (stability)
+	"triggers": {
+		"crons": [
+			"0 */6 * * *"
+		]
+	},
+	// Observability
+	"observability": {
+		"enabled": true
+	},
+	// Secrets (set via wrangler secret put)
+	// - NOTION_API_KEY
+	// - NOTION_DATABASE_ID
+	// - CF_ACCESS_TEAM_NAME
+	// - CF_ACCESS_AUD
+	// Routes (uncomment and configure for custom domain)
+	// "routes": [
+	//   {
+	//     "pattern": "environmenthub.yourdomain.com/*",
+	//     "custom_domain": true
+	//   }
+	// ]
 }
