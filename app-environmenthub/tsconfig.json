@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ES2022",
+    "lib": ["ES2022"],
+    "moduleResolution": "bundler",
+    "types": ["@cloudflare/workers-types"],
+
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["./02dev/src/*"]
+    }
+  },
+  "include": [
+    "02dev/src/**/*",
+    "01stg/src/**/*",
+    "00prd/src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    ".wrangler",
+    "dist"
+  ]
+}

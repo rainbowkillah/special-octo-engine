@@ -1,0 +1,35 @@
+{
+  "name": "environmenthub",
+  "version": "0.1.0",
+  "description": "Environment Hub - Centralized dashboard for managing environment variables, secrets, and Cloudflare Worker bindings",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "cd 02dev && wrangler dev src/index.ts --local --test-scheduled",
+    "deploy:dev": "cd 02dev && wrangler deploy --env dev",
+    "deploy:stg": "cd 01stg && wrangler deploy --env stg",
+    "deploy:prd": "cd 00prd && wrangler deploy --env prd",
+    "tail:dev": "cd 02dev && wrangler tail --env dev",
+    "tail:stg": "cd 01stg && wrangler tail --env stg",
+    "tail:prd": "cd 00prd && wrangler tail --env prd",
+    "db:create:dev": "cd 02dev && wrangler d1 create environmenthub-dev",
+    "db:create:stg": "cd 01stg && wrangler d1 create environmenthub-stg",
+    "db:create:prd": "cd 00prd && wrangler d1 create environmenthub-prd",
+    "db:migrate:dev": "cd 02dev && wrangler d1 execute DB --file=./src/schema/d1/init.sql --local",
+    "db:migrate:stg": "cd 01stg && wrangler d1 execute DB --file=./src/schema/d1/init.sql --remote",
+    "db:migrate:prd": "cd 00prd && wrangler d1 execute DB --file=./src/schema/d1/init.sql --remote",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "hono": "^4.6.14"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20241218.0",
+    "@types/node": "^22.10.5",
+    "typescript": "^5.7.2",
+    "wrangler": "^3.99.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
