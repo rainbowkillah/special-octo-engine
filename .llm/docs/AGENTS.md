@@ -19,7 +19,7 @@ responses concise, safe, and aligned to repository conventions.
 
 ## Code Standards
 
-- Generate TypeScript by default unless JavaScript is requested.
+- Generate JavaScript by default unless TypeScript is requested.
 - Use ES modules format (Workers Modules).
 - Import all types/classes used.
 - Avoid unnecessary dependencies.
