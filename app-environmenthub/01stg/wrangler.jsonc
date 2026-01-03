@@ -20,7 +20,7 @@
 	"kv_namespaces": [
 		{
 			"binding": "CACHE",
-			"id": "PLACEHOLDER_STG_KV_ID"
+			"id": "a7ea2dc40b784ed797c377c87735b56e"
 		}
 	],
 	// Scheduled sync every hour (pre-production validation)

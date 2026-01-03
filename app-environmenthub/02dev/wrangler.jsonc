@@ -20,7 +20,7 @@
 	"kv_namespaces": [
 		{
 			"binding": "CACHE",
-			"id": "PLACEHOLDER_DEV_KV_ID"
+			"id": "dcdd1cd9381b4a839bb0cd70e3f38b90"
 		}
 	],
 	// Scheduled sync every 15 minutes (rapid iteration in dev)

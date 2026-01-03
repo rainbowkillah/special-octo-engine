@@ -20,7 +20,7 @@
 	"kv_namespaces": [
 		{
 			"binding": "CACHE",
-			"id": "PLACEHOLDER_PRD_KV_ID"
+			"id": "83180c85f6a9491089ba5d30e2db8218"
 		}
 	],
 	// Scheduled sync every 6 hours (stability)
