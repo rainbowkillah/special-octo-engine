@@ -13,7 +13,7 @@ productive in this Cloudflare Workers monorepo template.
     before shipping.
 
 - Developer workflows (concrete)
-  - Local dev (edge-like): `cd com-yourbrand/02dev` then
+  - Local dev (edge-like): `cd com-mrrainbowsmoke/02dev` then
     `wrangler dev src/index.ts --test-scheduled --var ENV=dev`.
   - Edge-local testing: prefer `wrangler dev --local` when unit tests need edge
     semantics.
@@ -40,7 +40,7 @@ productive in this Cloudflare Workers monorepo template.
 - Architecture signposts (files to inspect first)
   - Monorepo entry: `README.md` — architecture and quickstart.
   - Tenant roots: `com-*/README.md` — tenant-specific details.
-  - Typical dev entrypoint example: `com-{tenant}/02dev/src/index.ts`.
+  - Typical dev entrypoint example: `com-mrrainbowsmoke/02dev/src/index.ts`.
   - Look for per-env `wrangler.jsonc` under each env folder.
 
 - Integration & external dependencies

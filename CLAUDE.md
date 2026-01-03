@@ -32,12 +32,12 @@ current platform limits before shipping.
 ## Common Commands
 
 All commands must be run from within a tenant environment directory (e.g.,
-`cd com-yourbrand/02dev`).
+`cd com-mrrainbowsmoke/02dev`).
 
 ### Local Development
 
 ```bash
-cd com-yourbrand/02dev
+cd com-mrrainbowsmoke/02dev
 wrangler dev src/index.ts --test-scheduled --var ENV=dev --local
 ```
 
@@ -51,7 +51,7 @@ Flags:
 
 ```bash
 # Deploy to dev
-cd com-yourbrand/02dev
+cd com-mrrainbowsmoke/02dev
 wrangler deploy --env dev
 
 # Promote to staging
@@ -88,7 +88,7 @@ wrangler secret list --env dev
 ### Full Deployment Workflow (one tenant, all envs)
 
 ```bash
-cd com-yourbrand/02dev && wrangler deploy --env dev
+cd com-mrrainbowsmoke/02dev && wrangler deploy --env dev
 cd ../01stg && wrangler deploy --env stg
 cd ../00prd && wrangler deploy --env prd
 ```

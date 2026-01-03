@@ -3,39 +3,39 @@
 ## Project Structure & Module Organization
 
 - Root has shared docs only (`README.md`, `CHANGELOG.md`).
-- Tenants live at the root (e.g., `com-yourbrand`, `com-yourotherbrand`).
+- Tenants live at the root (e.g., `com-mrrainbowsmoke`, `com-rainbowsmokeofficial`, `com-ai`).
 - Env order per tenant: `02dev/` → `01stg/` → `00prd/`.
 - Each env owns `wrangler.{jsonc,toml}`, secrets, and its `CHANGELOG.md`.
 - Code typically lives under env dirs (example:
-  `com-yourbrand/02dev/src/index.ts`).
+  `com-mrrainbowsmoke/02dev/src/index.ts`).
 
 ## Build, Test, and Development Commands
 
 - Commands are run from a tenant env directory. Example:
-  `cd com-yourbrand/02dev`.
+  `cd com-mrrainbowsmoke/02dev`.
 
 - Dev server
   - Command: `wrangler dev src/index.ts --test-scheduled --var ENV=dev`
-  - Example `cd`: `cd com-yourbrand/02dev`
+  - Example `cd`: `cd com-mrrainbowsmoke/02dev`
 - Deploy (dev)
   - Command: `wrangler deploy --env dev`
-  - Example `cd`: `cd com-yourbrand/02dev`
+  - Example `cd`: `cd com-mrrainbowsmoke/02dev`
 - Deploy (stg)
   - Command: `wrangler deploy --env stg`
-  - Example `cd`: `cd com-yourbrand/01stg`
+  - Example `cd`: `cd com-mrrainbowsmoke/01stg`
 - Deploy (prd)
   - Command: `wrangler deploy --env prd`
-  - Example `cd`: `cd com-yourbrand/00prd`
+  - Example `cd`: `cd com-mrrainbowsmoke/00prd`
 - Logs
   - Command: `wrangler tail --env dev|stg|prd`
-  - Example `cd`: `cd com-yourbrand/01stg`
+  - Example `cd`: `cd com-mrrainbowsmoke/01stg`
 
 Deploy sequence per tenant (dev → stg → prd):
 
 ```bash
-cd com-yourbrand/02dev && wrangler deploy --env dev
-cd com-yourbrand/01stg && wrangler deploy --env stg
-cd com-yourbrand/00prd && wrangler deploy --env prd
+cd com-mrrainbowsmoke/02dev && wrangler deploy --env dev
+cd com-mrrainbowsmoke/01stg && wrangler deploy --env stg
+cd com-mrrainbowsmoke/00prd && wrangler deploy --env prd
 ```
 
 Staging/production smoke checks:

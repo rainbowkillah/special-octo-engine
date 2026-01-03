@@ -1,0 +1,85 @@
+# Staging Environment Context
+
+You are working in the **01stg** (staging) environment.
+
+## Environment Characteristics
+
+- **Purpose**: Pre-production validation and integration testing
+- **Deployment frequency**: Several times per week
+- **Testing requirements**: Thorough testing required
+- **Breaking changes**: Should be avoided
+- **Risk tolerance**: Medium - staging should mirror production
+
+## Guidelines for This Environment
+
+### Code Changes
+- Only deploy code that has been validated in dev (02dev)
+- No experimental features
+- Configuration should mirror production as closely as possible
+- Breaking changes require careful planning and communication
+
+### Deployment
+- Deploy only after dev validation is complete
+- Command: `wrangler deploy --env stg`
+- Coordinate with team members
+- Always update `CHANGELOG.md` in this directory
+- Monitor logs after deployment: `wrangler tail --env stg`
+
+### Secrets & Configuration
+- Use production-like secrets (not real production secrets)
+- Secrets should be set using: `wrangler secret put SECRET_NAME --env stg`
+- Mirror production configuration structure
+- Test secret rotation procedures here
+
+### Testing Approach
+- Comprehensive integration testing
+- Test all critical user flows
+- Validate third-party integrations
+- Performance testing
+- Security validation
+- Test error handling and edge cases
+
+### Data
+- Use realistic test data that mirrors production
+- Do not use real user data
+- Can reset data, but should be planned
+- Test data migration procedures here
+
+### When to Promote to Production
+
+Move to production (00prd) when:
+- All integration tests pass
+- Performance is acceptable
+- Security review completed (if applicable)
+- Team approval obtained
+- Staging has been stable for appropriate duration
+- Rollback plan is prepared
+
+## Pre-Production Checklist
+
+Before promoting to production:
+
+- [ ] All critical flows tested and working
+- [ ] Integration tests passed
+- [ ] Performance is acceptable
+- [ ] No critical or high-severity bugs
+- [ ] Secrets configured for production
+- [ ] Team notified of pending production deployment
+- [ ] Rollback plan documented
+- [ ] Monitoring/alerting verified
+
+## Quick Commands
+
+```bash
+# Deploy to staging
+wrangler deploy --env stg
+
+# View logs
+wrangler tail --env stg
+
+# View logs as JSON for analysis
+wrangler tail --env stg --format json
+
+# Set secret
+wrangler secret put API_KEY --env stg
+```

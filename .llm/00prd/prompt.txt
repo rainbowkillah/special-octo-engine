@@ -1,0 +1,125 @@
+# Production Environment Context
+
+You are working in the **00prd** (production) environment.
+
+## Environment Characteristics
+
+- **Purpose**: Live production serving real users
+- **Deployment frequency**: Controlled and scheduled
+- **Testing requirements**: Must be fully validated in dev and staging
+- **Breaking changes**: Require extensive planning and migration
+- **Risk tolerance**: Very low - stability is paramount
+
+## Guidelines for This Environment
+
+### Code Changes
+- **ONLY** deploy code that has been fully validated in dev and staging
+- **NO** experimental features or untested code
+- All changes must be reviewed and approved
+- Emergency hotfixes require immediate post-deployment review
+
+### Deployment
+
+**CRITICAL**: Production deployments require careful planning.
+
+- Deploy only after complete staging validation
+- Command: `wrangler deploy --env prd`
+- Schedule during low-traffic periods when possible
+- Always update `CHANGELOG.md` in this directory
+- Monitor logs actively for 15+ minutes post-deployment
+- Have rollback plan ready
+
+### Pre-Deployment Checklist
+
+- [ ] Validated in both dev (02dev) and staging (01stg)
+- [ ] All tests passing
+- [ ] Team approval obtained
+- [ ] Stakeholders notified
+- [ ] Deployment scheduled (if maintenance window needed)
+- [ ] Production secrets verified
+- [ ] Rollback plan documented
+- [ ] Monitoring/alerting active
+
+### Secrets & Configuration
+- Use real production secrets
+- Handle with extreme care
+- Set using: `wrangler secret put SECRET_NAME --env prd`
+- Never log or expose production secrets
+- Rotate secrets regularly
+- Document secret rotation procedures
+
+### Monitoring
+- Monitor logs continuously after deployment
+- Watch for error rate increases
+- Monitor performance metrics
+- Check third-party integration health
+- Verify critical user flows working
+
+### Incident Response
+
+If issues detected in production:
+
+1. **Assess severity** - Is this affecting users?
+2. **Immediate action** - Roll back if necessary
+3. **Communicate** - Notify team and stakeholders
+4. **Document** - Log incident in `.llm/plans/INCIDENTS.md`
+5. **Root cause** - Investigate after stability restored
+6. **Prevent** - Update processes to prevent recurrence
+
+### Rollback Procedure
+
+If production deployment causes issues:
+
+```bash
+# 1. Checkout previous stable version
+git checkout <previous-commit>
+
+# 2. Redeploy
+cd com-{tenant}/00prd
+wrangler deploy --env prd
+
+# 3. Monitor to confirm issue resolved
+wrangler tail --env prd
+
+# 4. Document incident
+# Add details to .llm/plans/INCIDENTS.md
+```
+
+### Data
+- Contains real user data
+- Handle according to privacy policies
+- Never delete or modify without proper procedures
+- Regular backups (if applicable to KV/D1)
+- Test data migration in staging first
+
+### Communication
+
+- Notify team before production deployments
+- Communicate any production issues immediately
+- Update stakeholders on deployment status
+- Document all production changes
+
+## Quick Commands
+
+```bash
+# Deploy to production (with caution!)
+wrangler deploy --env prd
+
+# Monitor logs (JSON format for analysis)
+wrangler tail --env prd --format json
+
+# Set production secret
+wrangler secret put API_KEY --env prd
+
+# List configured secrets
+wrangler secret list --env prd
+```
+
+## Remember
+
+Production is sacred. When in doubt:
+- Ask for review
+- Test more in staging
+- Schedule deployment for low-traffic period
+- Have rollback plan ready
+- Monitor actively post-deployment

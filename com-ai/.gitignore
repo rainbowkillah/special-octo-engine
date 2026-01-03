@@ -58,15 +58,7 @@ coverage/
 secrets.local.*
 
 # Prompt + agent tooling
-# Track template structure but ignore user-specific content
-.llm/*
-!.llm/docs/
-!.llm/plans/
-!.llm/02dev/
-!.llm/01stg/
-!.llm/00prd/
-.llm/**/*.local.*
-.llm/**/secrets.*
+.llm/
 .prompt-cache/
 .plans/cache/
 *.prompt-scratch

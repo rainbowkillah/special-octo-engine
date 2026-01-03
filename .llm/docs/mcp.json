@@ -1,0 +1,40 @@
+{
+  "servers": {
+    "cloudflare": {
+      "url": "https://docs.mcp.cloudflare.com/mcp",
+      "type": "http"
+    },
+    "github": {
+      "type": "http",
+      "url": "https://api.githubcopilot.com/mcp/",
+      "headers": {
+        "Authorization": "${input:GitHubToken}"
+      },
+      "gallery": "https://api.mcp.github.com",
+      "version": "0.24.0"
+    },
+    "notion": {
+      "type": "http",
+      "url": "https://mcp.notion.com/mcp",
+      "headers": {
+        "Authorization": "Bearer ${input:NotionToken}"
+      },
+      "gallery": "https://api.mcp.github.com",
+      "version": "1.0.0"
+    }
+  },
+  "inputs": [
+    {
+      "id": "GitHubToken",
+      "type": "promptString",
+      "description": "GitHub auth token (PAT or App token)",
+      "password": true
+    },
+    {
+      "id": "NotionToken",
+      "type": "promptString",
+      "description": "Notion integration token",
+      "password": true
+    }
+  ]
+}

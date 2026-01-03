@@ -14,10 +14,11 @@ flows, per-environment configuration, and clear documentation.
 
 ## Tenants
 
-- `com-yourbrand` → primary tenant
-- `com-yourotherbrand` → secondary tenant
+- `com-mrrainbowsmoke` → primary tenant
+- `com-rainbowsmokeofficial` → secondary tenant
+- `com-ai` → third tenant
 
-If you keep one tenant, delete the other directory and update references in:
+To remove a tenant, delete its directory and update references in:
 `README.md`, `CHANGELOG.md`, `.github/copilot-instructions.md`, and `.llm/`.
 
 ## Project Structure
@@ -31,7 +32,7 @@ cf/
 ├─ .github/
 │  └─ copilot-instructions.md
 ├─ .llm/                    # Agent prompts, docs, and plans
-├─ com-yourbrand            # Tenant A
+├─ com-mrrainbowsmoke       # Tenant A
 │  ├─ 00prd/
 │  │  └─ CHANGELOG.md
 │  ├─ 01stg/
@@ -40,7 +41,16 @@ cf/
 │  │  └─ CHANGELOG.md
 │  ├─ README.md
 │  └─ CHANGELOG.md
-└─ com-yourotherbrand       # Tenant B
+├─ com-rainbowsmokeofficial # Tenant B
+│  ├─ 00prd/
+│  │  └─ CHANGELOG.md
+│  ├─ 01stg/
+│  │  └─ CHANGELOG.md
+│  ├─ 02dev/
+│  │  └─ CHANGELOG.md
+│  ├─ README.md
+│  └─ CHANGELOG.md
+└─ com-ai                   # Tenant C
    ├─ 00prd/
    │  └─ CHANGELOG.md
    ├─ 01stg/
@@ -61,7 +71,7 @@ cf/
 
 ```bash
 # Pick a tenant + env
-cd com-yourbrand/02dev
+cd com-mrrainbowsmoke/02dev
 
 # Local dev (edge-like)
 wrangler dev src/index.ts --test-scheduled --var ENV=dev --local

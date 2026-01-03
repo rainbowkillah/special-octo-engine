@@ -1,0 +1,65 @@
+# Development Environment Context
+
+You are working in the **02dev** (development) environment.
+
+## Environment Characteristics
+
+- **Purpose**: Active development and experimentation
+- **Deployment frequency**: Multiple times per day
+- **Testing requirements**: Local testing required, but can be more relaxed
+- **Breaking changes**: Acceptable here
+- **Risk tolerance**: High - this is the sandbox environment
+
+## Guidelines for This Environment
+
+### Code Changes
+- Experiment freely with new features and refactoring
+- Breaking changes are acceptable
+- Focus on rapid iteration
+- Local testing with `wrangler dev --local` before deployment
+
+### Deployment
+- Deploy frequently to test in edge environment
+- Command: `wrangler deploy --env dev`
+- No formal approval needed
+- Update `CHANGELOG.md` in this directory for significant changes
+
+### Secrets & Configuration
+- Use `.dev.vars` for local secrets (gitignored)
+- Dev secrets can be test values
+- Use `wrangler secret put SECRET_NAME --env dev` for deployed dev environment
+
+### Testing Approach
+- Quick validation is acceptable
+- Focus on ensuring new features work
+- Edge cases can be deferred to staging
+- Manual testing is primary approach
+
+### Data
+- Dev data is disposable
+- Can reset KV/D1 as needed
+- No user data concerns
+
+### When to Promote to Staging
+
+Move to staging (01stg) when:
+- Feature is functionally complete
+- Basic testing passes
+- Ready for more thorough integration testing
+- No known critical bugs
+
+## Quick Commands
+
+```bash
+# Local development
+wrangler dev src/index.ts --test-scheduled --var ENV=dev --local
+
+# Deploy to dev
+wrangler deploy --env dev
+
+# View logs
+wrangler tail --env dev
+
+# Set secret
+wrangler secret put API_KEY --env dev
+```
