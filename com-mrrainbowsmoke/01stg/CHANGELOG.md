@@ -1,9 +1,15 @@
-# Changelog — Tenant A — 01stg
+# Changelog — com-mrrainbowsmoke — 01stg
+
+Environment-specific changes for the staging environment.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
-- Staging-only adjustments and validation notes.
+### Changed
+- Staging-only adjustments and validation notes go here.
 
-## 0.1.0 — 2026-01-03
+## [0.1.0] — 2026-01-03
 
-- Initialize staging environment placeholders.
+### Added
+- Initialized staging environment with `wrangler.jsonc` configuration.

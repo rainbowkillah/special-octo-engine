@@ -6,11 +6,12 @@ flows, per-environment configuration, and clear documentation.
 
 ## What This Template Includes
 
-- Two sample tenants (rename to your own domains/orgs).
+- Three sample tenants (rename to your own domains/orgs).
 - Three-tier environment folders per tenant: `02dev` → `01stg` → `00prd`.
-- Per-environment configuration and CHANGELOGs.
+- Per-environment configuration (`wrangler.jsonc`) and CHANGELOGs.
 - LLM/agent prompts and planning docs under `.llm/`.
 - Copilot/agent instructions under `.github/`.
+- VSCode workspace configuration (`cf.code-workspace`).
 
 ## Tenants
 
@@ -65,7 +66,8 @@ cf/
 
 - Promotion order: `02dev` → `01stg` → `00prd`.
 - Run `wrangler` commands from the target env directory.
-- Each env owns its own `wrangler.{jsonc,toml}`, secrets, and `CHANGELOG.md`.
+- Each env owns its own `wrangler.jsonc`, secrets, and `CHANGELOG.md`.
+- Configuration format: Use `wrangler.jsonc` (JSON with comments) for all environments.
 
 ## Dev Quickstart
 

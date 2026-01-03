@@ -1,6 +1,6 @@
-# Tenant B (Your Other Brand)
+# com-rainbowsmokeofficial
 
-Cloudflare Workers tenant for your secondary domain.
+Cloudflare Workers tenant for the secondary domain.
 
 ## Environments
 
@@ -8,14 +8,7 @@ Cloudflare Workers tenant for your secondary domain.
 - `01stg` → staging/preview
 - `00prd` → production
 
-Each env keeps its own `wrangler.{jsonc,toml}`, secrets, and CHANGELOG entries.
-
-Per-environment files:
-
-- Each env folder contains a `CHANGELOG.md` and an environment file (for
-  example `.env.dev`, `.env.stg`, `.env.prd`).
-- Each env may also include a `wrangler.jsonc` or `wrangler.toml` and a
-  tenant-level `.gitignore`.
+Each env owns its own `wrangler.jsonc`, secrets, and `CHANGELOG.md`.
 
 ## Stack Highlights (Optional)
 
@@ -28,8 +21,8 @@ Per-environment files:
 ## Dev Quickstart
 
 ```bash
-cd com-yourotherbrand/02dev
-wrangler dev src/index.ts --test-scheduled --var ENV=dev
+cd com-rainbowsmokeofficial/02dev
+wrangler dev src/index.ts --test-scheduled --var ENV=dev --local
 wrangler deploy --env dev   # promote to stg/prd when ready
 ```
 
@@ -41,6 +34,6 @@ wrangler deploy --env dev   # promote to stg/prd when ready
 
 ## Support Links
 
-- Production: <https://otherdomain.com>
+- Production: TBD (configure in `wrangler.jsonc`)
 - Monitoring: `wrangler tail --env prd`
-- Shared practices live in repo `README.md`.
+- Docs: See monorepo [README.md](../README.md) for shared conventions.

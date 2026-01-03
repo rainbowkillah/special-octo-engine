@@ -1,9 +1,15 @@
-# Changelog — Tenant B — 02dev
+# Changelog — com-rainbowsmokeofficial — 02dev
+
+Environment-specific changes for the development environment.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
-- Dev-only changes and experiments.
+### Changed
+- Dev-only changes and experiments go here.
 
-## 0.1.0 — 2026-01-03
+## [0.1.0] — 2026-01-03
 
-- Initialize dev environment placeholders.
+### Added
+- Initialized dev environment with `wrangler.jsonc` configuration.
