@@ -7,6 +7,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ### Added
+- **Environment Hub - Phase 2 Complete**: Worker implementation across dev/stg/prd.
+  - Types for Env, Notion payloads, D1 records, and API contracts
+  - Notion client + transformer, D1 client with CRUD/filtering, sync engines (Notion → D1, D1 → Notion)
+  - Cloudflare Access middleware with JWT verification, API routes, dashboard HTML/JS, worker entrypoint with scheduled sync
+  - Source synced to all environments for promotion
 - **Environment Hub - Phase 1 Complete** ✅: Infrastructure for centralized environment variable, secret, and binding management.
   - **D1 Databases**: Created and migrated for dev, staging, and production environments
     - Schema: `environment_hub` table (20+ fields), `sync_log` table, 3 views

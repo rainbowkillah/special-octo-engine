@@ -18,7 +18,8 @@
     "db:migrate:dev": "cd 02dev && wrangler d1 execute DB --file=./src/schema/d1/init.sql --local",
     "db:migrate:stg": "cd 01stg && wrangler d1 execute DB --file=./src/schema/d1/init.sql --remote",
     "db:migrate:prd": "cd 00prd && wrangler d1 execute DB --file=./src/schema/d1/init.sql --remote",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test:unit": "npx ts-node --esm tests/run-tests.ts"
   },
   "dependencies": {
     "hono": "^4.6.14"
@@ -26,6 +27,7 @@
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20241218.0",
     "@types/node": "^22.10.5",
+    "ts-node": "^10.9.2",
     "typescript": "^5.7.2",
     "wrangler": "^4.54.0"
   },

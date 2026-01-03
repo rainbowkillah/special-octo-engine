@@ -4,14 +4,13 @@ All notable changes to the Environment Hub tenant will be documented here.
 
 ## [Unreleased]
 
-### Phase 2 - Worker Implementation (Planned)
-- TypeScript type definitions for Notion, D1, API
+### Phase 2 - Worker Implementation (Complete)
+- TypeScript type definitions for Notion payloads, D1 records, and API contracts
 - Notion API client with pagination and error handling
-- D1 database client with CRUD operations
-- Bidirectional sync engine with conflict resolution
-- Web dashboard with HTML/CSS/Vanilla JS
-- Cloudflare Access authentication middleware
-- Secret masking and security features
+- D1 database client with CRUD, filtering, pagination, and sync log helpers
+- Sync engines for Notion → D1 and D1 → Notion with sync log tracking
+- Hono middleware (logger, error handler, Cloudflare Access verification), API routes, dashboard HTML/JS view
+- Worker entrypoint with scheduled sync trigger; source synced to dev/stg/prd directories
 
 ## [0.1.0] — 2026-01-03
 

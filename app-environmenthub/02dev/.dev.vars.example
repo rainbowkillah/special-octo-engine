@@ -2,13 +2,15 @@
 # Copy this file to .dev.vars and fill in your actual values
 # NEVER commit .dev.vars to git
 
-# Notion API credentials
-NOTION_API_KEY=secret_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-NOTION_DATABASE_ID=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+# Notion API credentials (replace with real values locally; keep out of git)
+NOTION_API_KEY=your_notion_api_key
+NOTION_DATABASE_ID=your_notion_database_id
 
 # Cloudflare Access (for local testing with bypass)
-CF_ACCESS_TEAM_NAME=your-team-name
-CF_ACCESS_AUD=your-access-aud-tag
+CF_ACCESS_TEAM_NAME=your_team_name
+CF_ACCESS_AUD=your_access_app_aud
+CF_ACCESS_CLIENT_ID=your_service_token_client_id
+CF_ACCESS_CLIENT_SECRET=your_service_token_client_secret
 
 # Optional: Development bypass
 # Set this header to bypass Cloudflare Access in dev: X-Dev-Bypass: true
