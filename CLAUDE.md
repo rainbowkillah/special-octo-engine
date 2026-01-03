@@ -9,6 +9,13 @@ This is a Cloudflare Workers monorepo template with tenant-based environment
 folders. Each tenant has three environment directories promoting in order:
 `02dev` → `01stg` → `00prd`.
 
+Current tenants:
+- `com-mrrainbowsmoke` — primary tenant
+- `com-rainbowsmokeofficial` — secondary tenant
+- `com-ai` — third tenant
+
+The naming pattern `com-{tenant}` follows domain-style conventions.
+
 ## Key Architecture Principles
 
 ### Environment Structure
@@ -18,6 +25,7 @@ folders. Each tenant has three environment directories promoting in order:
   `wrangler.jsonc`, `.env.*`, and `CHANGELOG.md`.
 - Code is shared at workspace level; configuration is per-environment.
 - **Always work from inside the env directory** when running wrangler commands.
+- The typical entry point for a worker is `com-{tenant}/{env}/src/index.ts`.
 
 ### Promotion Flow
 
@@ -108,11 +116,13 @@ cd ../00prd && wrangler deploy --env prd
 
 ### Wrangler Configuration
 
-- Each env should have `wrangler.jsonc` (not `.toml`) unless you intentionally
-  choose TOML.
+- This repository uses `wrangler.jsonc` (JSON with comments) as the preferred
+  configuration format. Avoid using `wrangler.toml` unless there's a specific
+  reason to do so.
+- Each env has its own `wrangler.jsonc` file with environment-specific settings.
 - Configuration is per-environment, not per-branch.
 - Use `wrangler.jsonc` to configure routes, KV namespaces, D1 bindings, Durable
-  Objects, etc.
+  Objects, cron triggers, etc.
 
 ## Important File Locations
 
@@ -121,15 +131,21 @@ cd ../00prd && wrangler deploy --env prd
 - `README.md` — Monorepo overview and quickstart
 - `.github/copilot-instructions.md` — Agent rules and conventions
 - `AGENTS.md` — Repository guidelines for build/test/deploy commands
+- `cf.code-workspace` — VS Code workspace configuration
+- `.llm/README.md` — LLM/agent context directory overview
 - `.llm/docs/DEVELOPMENT.md` — Local dev setup, secrets, debugging
 - `.llm/docs/DEPLOYMENTS.md` — Promotion workflow with checklists
 - `.llm/docs/TROUBLESHOOTING.md` — Common issues and solutions
 
 ### Environment-Specific Prompts
 
-- `.llm/02dev/prompt.txt` — Dev environment guidance
-- `.llm/01stg/prompt.txt` — Staging environment guidance
-- `.llm/00prd/prompt.txt` — Production environment guidance
+The `.llm/` directory contains environment-specific prompts that tailor guidance
+based on context. These prompts inherit repository rules from `AGENTS.md` and
+`.github/copilot-instructions.md`:
+
+- `.llm/02dev/prompt.txt` — Dev environment guidance (rapid iteration)
+- `.llm/01stg/prompt.txt` — Staging environment guidance (pre-prod validation)
+- `.llm/00prd/prompt.txt` — Production environment guidance (stability focus)
 
 ### Planning and Incidents
 
@@ -142,4 +158,6 @@ cd ../00prd && wrangler deploy --env prd
 - **Never commit secrets to git**.
 - Use `wrangler secret put` for deployed environments.
 - Use `.dev.vars` (git-ignored) for local development.
-- Sanitize `.llm/` files before committing (strip PII, tokens).
+- The `.llm/` directory contains agent prompts and planning docs—sanitize these
+  files before committing to strip PII, tokens, or sensitive context.
+- Keep `.llm/docs/mcp.json` free of actual tokens (use placeholders only).
