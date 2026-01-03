@@ -48,6 +48,17 @@ Move to staging (01stg) when:
 - Ready for more thorough integration testing
 - No known critical bugs
 
+## Active Projects
+
+### Environment Hub (app-environmenthub)
+**Status**: Phase 1 Complete ✅ - Infrastructure Ready
+- D1 Database: `14bf17c9-c510-4ed7-80f7-6c002eb68e0f`
+- KV Namespace: `dcdd1cd9381b4a839bb0cd70e3f38b90`
+- Cron Schedule: Every 15 minutes (*/15 * * * *)
+- **Next**: Phase 2 - Worker implementation
+- **Context**: See `.llm/context/2026-01-03-environmenthub-phase1.md`
+- **Plan**: See `.claude/plans/greedy-prancing-lemur.md`
+
 ## Quick Commands
 
 ```bash
@@ -62,4 +73,10 @@ wrangler tail --env dev
 
 # Set secret
 wrangler secret put API_KEY --env dev
+
+# Environment Hub specific
+cd app-environmenthub/02dev
+npm run dev                                    # Local development
+npx wrangler d1 execute DB --command="..." --local  # Query local D1
+npx wrangler d1 execute DB --command="..." --remote # Query remote D1
 ```
