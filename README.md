@@ -18,7 +18,10 @@ flows, per-environment configuration, and clear documentation.
 - `com-mrrainbowsmoke` → primary tenant
 - `com-rainbowsmokeofficial` → secondary tenant
 - `com-ai` → third tenant
-- `app-environmenthub` → internal dashboard for managing environment variables, secrets, and bindings
+- `app-environmenthub` → **✅ Phase 1 Complete** - Internal dashboard for managing environment variables, secrets, and bindings across all tenants
+  - Infrastructure: D1 databases, KV namespaces, schema migrations complete
+  - Status: Ready for Phase 2 implementation
+  - See [app-environmenthub/README.md](app-environmenthub/README.md) for details
 
 To remove a tenant, delete its directory and update references in:
 `README.md`, `CHANGELOG.md`, `.github/copilot-instructions.md`, and `.llm/`.
