@@ -32,7 +32,7 @@
 	// Observability
 	"observability": {
 		"enabled": true
-	},
+	}
 	// Secrets (set via wrangler secret put)
 	// - NOTION_API_KEY
 	// - NOTION_DATABASE_ID
