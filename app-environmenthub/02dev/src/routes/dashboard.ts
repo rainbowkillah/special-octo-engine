@@ -26,10 +26,13 @@ dashboard.get('/', async (c) => {
       border-radius: 8px;
       margin-bottom: 1.5rem;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      flex-wrap: wrap;
     }
     .filters input, .filters select {
       padding: 0.5rem;
-      margin-right: 1rem;
       border: 1px solid #ddd;
       border-radius: 4px;
     }
@@ -55,7 +58,7 @@ dashboard.get('/', async (c) => {
     }
     .badge-sensitive { background: #fee; color: #c33; }
     .badge-public { background: #efe; color: #3c3; }
-    .sync-button {
+    .btn {
       background: #0066cc;
       color: white;
       border: none;
@@ -64,7 +67,57 @@ dashboard.get('/', async (c) => {
       cursor: pointer;
       font-weight: 500;
     }
-    .sync-button:hover { background: #0052a3; }
+    .btn:hover { background: #0052a3; }
+    .btn-success { background: #28a745; }
+    .btn-success:hover { background: #218838; }
+    .btn-danger { background: #dc3545; }
+    .btn-danger:hover { background: #c82333; }
+    .btn-small {
+      padding: 0.25rem 0.75rem;
+      font-size: 0.875rem;
+      margin-right: 0.5rem;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      align-items: center;
+      justify-content: center;
+    }
+    .modal.active { display: flex; }
+    .modal-content {
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      max-width: 600px;
+      width: 90%;
+    }
+    .form-group {
+      margin-bottom: 1rem;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    .form-group textarea {
+      min-height: 100px;
+    }
+    .form-actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
   </style>
 </head>
 <body>
@@ -85,13 +138,63 @@ dashboard.get('/', async (c) => {
         <option value="Token">Token</option>
         <option value="API Key">API Key</option>
       </select>
-      <button class="sync-button" onclick="triggerSync()">Sync from Notion</button>
+      <button class="btn btn-success" onclick="openModal()">+ Add Entry</button>
     </div>
 
     <div id="entries"></div>
   </div>
 
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <h2 id="modal-title">Add Entry</h2>
+      <form id="entry-form">
+        <input type="hidden" id="entry-id" />
+        <div class="form-group">
+          <label>Key *</label>
+          <input type="text" id="key" required />
+        </div>
+        <div class="form-group">
+          <label>Value</label>
+          <input type="text" id="value" />
+        </div>
+        <div class="form-group">
+          <label>Tenant *</label>
+          <select id="form-tenant" required>
+            <option value="mrrainbowsmoke.com">mrrainbowsmoke.com</option>
+            <option value="rainbowsmokeofficial.com">rainbowsmokeofficial.com</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Environment Type</label>
+          <select id="form-environment-type">
+            <option value="">Select...</option>
+            <option value="Variable">Variable</option>
+            <option value="Secret">Secret</option>
+            <option value="Token">Token</option>
+            <option value="API Key">API Key</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <textarea id="description"></textarea>
+        </div>
+        <div class="form-group">
+          <label>
+            <input type="checkbox" id="is-sensitive" />
+            Sensitive (mask value)
+          </label>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-success">Save</button>
+          <button type="button" class="btn" onclick="closeModal()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <script>
+    let currentEntryId = null;
+
     async function loadEntries() {
       const search = document.getElementById('search').value;
       const tenant = document.getElementById('tenant').value;
@@ -120,20 +223,29 @@ dashboard.get('/', async (c) => {
               <th>Tenant</th>
               <th>Environment</th>
               <th>Sensitive</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            \${result.data.map(entry => \`
+            \${result.data.length === 0 ? \`
+              <tr><td colspan="7" style="text-align: center; padding: 2rem; color: #666;">
+                No entries found. Click "Add Entry" to create one.
+              </td></tr>
+            \` : result.data.map(entry => \`
               <tr>
                 <td><strong>\${entry.key}</strong></td>
-                <td>\${entry.description}</td>
-                <td>\${entry.environment_type}</td>
+                <td>\${entry.description || '-'}</td>
+                <td>\${entry.environment_type || '-'}</td>
                 <td>\${entry.tenant}</td>
-                <td>\${JSON.parse(entry.environment).join(', ')}</td>
+                <td>\${entry.environment ? JSON.parse(entry.environment).join(', ') : '-'}</td>
                 <td>
                   <span class="badge badge-\${entry.is_sensitive ? 'sensitive' : 'public'}">
                     \${entry.is_sensitive ? 'Sensitive' : 'Public'}
                   </span>
+                </td>
+                <td>
+                  <button class="btn btn-small" onclick="editEntry(\${entry.id})">Edit</button>
+                  <button class="btn btn-danger btn-small" onclick="deleteEntry(\${entry.id})">Delete</button>
                 </td>
               </tr>
             \`).join('')}
@@ -144,24 +256,78 @@ dashboard.get('/', async (c) => {
       document.getElementById('entries').innerHTML = html;
     }
 
-    async function triggerSync() {
-      if (!confirm('Trigger manual sync from Notion?')) return;
+    function openModal(entry = null) {
+      currentEntryId = entry?.id || null;
+      document.getElementById('modal-title').textContent = entry ? 'Edit Entry' : 'Add Entry';
+      document.getElementById('entry-id').value = entry?.id || '';
+      document.getElementById('key').value = entry?.key || '';
+      document.getElementById('value').value = entry?.is_sensitive ? '' : (entry?.value || '');
+      document.getElementById('form-tenant').value = entry?.tenant || 'mrrainbowsmoke.com';
+      document.getElementById('form-environment-type').value = entry?.environment_type || '';
+      document.getElementById('description').value = entry?.description || '';
+      document.getElementById('is-sensitive').checked = entry?.is_sensitive || false;
+      document.getElementById('modal').classList.add('active');
+    }
 
-      const response = await fetch('/api/v1/sync', {
-        method: 'POST',
+    function closeModal() {
+      document.getElementById('modal').classList.remove('active');
+      document.getElementById('entry-form').reset();
+      currentEntryId = null;
+    }
+
+    async function editEntry(id) {
+      const response = await fetch(\`/api/v1/entries/\${id}\`);
+      const result = await response.json();
+      if (result.success) {
+        openModal(result.data);
+      }
+    }
+
+    async function deleteEntry(id) {
+      if (!confirm('Delete this entry? This cannot be undone.')) return;
+
+      const response = await fetch(\`/api/v1/entries/\${id}\`, { method: 'DELETE' });
+      const result = await response.json();
+
+      if (result.success) {
+        alert('Entry deleted successfully');
+        loadEntries();
+      } else {
+        alert('Error: ' + result.error);
+      }
+    }
+
+    document.getElementById('entry-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const data = {
+        key: document.getElementById('key').value,
+        value: document.getElementById('value').value,
+        tenant: document.getElementById('form-tenant').value,
+        environment_type: document.getElementById('form-environment-type').value || null,
+        description: document.getElementById('description').value || null,
+        is_sensitive: document.getElementById('is-sensitive').checked,
+      };
+
+      const url = currentEntryId ? \`/api/v1/entries/\${currentEntryId}\` : '/api/v1/entries';
+      const method = currentEntryId ? 'PUT' : 'POST';
+
+      const response = await fetch(url, {
+        method,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ direction: 'notion_to_d1' }),
+        body: JSON.stringify(data),
       });
 
       const result = await response.json();
 
       if (result.success) {
-        alert(\`Sync completed!\\nProcessed: \${result.data.processed}\\nCreated: \${result.data.created}\\nUpdated: \${result.data.updated}\`);
+        alert(currentEntryId ? 'Entry updated!' : 'Entry created!');
+        closeModal();
         loadEntries();
       } else {
-        alert('Sync failed: ' + result.error);
+        alert('Error: ' + result.error);
       }
-    }
+    });
 
     document.getElementById('search').addEventListener('input', loadEntries);
     document.getElementById('tenant').addEventListener('change', loadEntries);

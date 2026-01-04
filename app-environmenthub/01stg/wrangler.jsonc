@@ -23,19 +23,11 @@
 			"id": "a7ea2dc40b784ed797c377c87735b56e"
 		}
 	],
-	// Scheduled sync every hour (pre-production validation)
-	"triggers": {
-		"crons": [
-			"0 * * * *"
-		]
-	},
 	// Observability
 	"observability": {
 		"enabled": true
 	}
 	// Secrets (set via wrangler secret put)
-	// - NOTION_API_KEY
-	// - NOTION_DATABASE_ID
 	// - CF_ACCESS_TEAM_NAME
 	// - CF_ACCESS_AUD
 	// Routes (uncomment and configure for custom domain)

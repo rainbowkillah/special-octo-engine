@@ -1,7 +1,6 @@
 import { Hono } from 'hono';
 import type { Env } from '../types/env';
 import { DatabaseClient } from '../lib/database/client';
-import { SyncEngine } from '../lib/sync/engine';
 
 const api = new Hono<{ Bindings: Env }>();
 
@@ -61,42 +60,79 @@ api.get('/entries/:id', async (c) => {
   return c.json({ success: true, data: entry });
 });
 
-// Trigger manual sync (Notion -> D1)
-api.post('/sync', async (c) => {
+// Create new entry
+api.post('/entries', async (c) => {
+  const db = new DatabaseClient(c.env.DB);
   const body = await c.req.json();
-  const direction = body.direction || 'notion_to_d1';
 
-  if (direction !== 'notion_to_d1' && direction !== 'd1_to_notion') {
-    return c.json(
-      {
-        success: false,
-        error: 'Unsupported sync direction',
-      },
-      400,
-    );
+  // Basic validation
+  if (!body.key || !body.tenant) {
+    return c.json({ success: false, error: 'key and tenant are required' }, 400);
   }
 
-  const syncEngine = new SyncEngine(c.env);
-  const result =
-    direction === 'd1_to_notion' ? await syncEngine.syncD1ToNotion() : await syncEngine.syncNotionToD1();
-
-  return c.json({
-    success: true,
-    data: result,
+  const entry = await db.createEntry({
+    key: body.key,
+    value: body.value || '',
+    value_type: body.value_type || 'String',
+    tenant: body.tenant,
+    environment: body.environment || '[]',
+    environment_type: body.environment_type || null,
+    is_sensitive: body.is_sensitive || false,
+    description: body.description || null,
+    status: body.status || 'active',
+    notion_id: null,
+    required: null,
+    service_component: null,
+    reference: null,
+    notes: null,
+    last_updated_rotated: null,
+    updated_rotated_by: null,
+    rotation_policy: null,
+    last_synced_from_notion: null,
+    notion_last_edited_time: null,
   });
+
+  return c.json({ success: true, data: entry }, 201);
 });
 
-// Sync stats
+// Update entry
+api.put('/entries/:id', async (c) => {
+  const id = parseInt(c.req.param('id'), 10);
+  const db = new DatabaseClient(c.env.DB);
+  const body = await c.req.json();
+
+  const existing = await db.getEntryById(id);
+  if (!existing) {
+    return c.json({ success: false, error: 'Entry not found' }, 404);
+  }
+
+  const updated = await db.updateEntry(id, body);
+  return c.json({ success: true, data: updated });
+});
+
+// Delete entry
+api.delete('/entries/:id', async (c) => {
+  const id = parseInt(c.req.param('id'), 10);
+  const db = new DatabaseClient(c.env.DB);
+
+  const existing = await db.getEntryById(id);
+  if (!existing) {
+    return c.json({ success: false, error: 'Entry not found' }, 404);
+  }
+
+  await db.deleteEntry(id);
+  return c.json({ success: true, message: 'Entry deleted' });
+});
+
+// Stats
 api.get('/stats', async (c) => {
   const db = new DatabaseClient(c.env.DB);
-  const recentSyncs = await db.getRecentSyncs(5);
   const allEntries = await db.getAllEntries();
 
   return c.json({
     success: true,
     data: {
       total_entries: allEntries.length,
-      recent_syncs: recentSyncs,
     },
   });
 });

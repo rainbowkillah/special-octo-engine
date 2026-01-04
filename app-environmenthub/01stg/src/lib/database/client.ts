@@ -22,7 +22,7 @@ export class DatabaseClient {
     return (result as unknown as EnvironmentHubRecord | null) ?? null;
   }
 
-  async createEntry(entry: Omit<EnvironmentHubRecord, 'id' | 'created_at' | 'updated_at'>): Promise<number> {
+  async createEntry(entry: Omit<EnvironmentHubRecord, 'id' | 'created_at' | 'updated_at'>): Promise<EnvironmentHubRecord> {
     const result = await this.db
       .prepare(
         `
@@ -37,54 +37,57 @@ export class DatabaseClient {
       `,
       )
       .bind(
-        entry.notion_id,
+        entry.notion_id ?? null,
         entry.key,
-        entry.description,
-        entry.value,
-        entry.value_type,
-        entry.environment,
-        entry.environment_type,
+        entry.description ?? null,
+        entry.value ?? null,
+        entry.value_type ?? 'String',
+        entry.environment ?? '[]',
+        entry.environment_type ?? null,
         entry.tenant,
-        entry.is_sensitive,
-        entry.required,
-        entry.status,
-        entry.service_component,
-        entry.reference,
-        entry.notes,
-        entry.last_updated_rotated,
-        entry.updated_rotated_by,
-        entry.rotation_policy,
-        entry.last_synced_from_notion,
-        entry.notion_last_edited_time,
+        entry.is_sensitive ? 1 : 0,
+        entry.required ?? 0,
+        entry.status ?? 'active',
+        entry.service_component ?? null,
+        entry.reference ?? null,
+        entry.notes ?? null,
+        entry.last_updated_rotated ?? null,
+        entry.updated_rotated_by ?? null,
+        entry.rotation_policy ?? null,
+        entry.last_synced_from_notion ?? null,
+        entry.notion_last_edited_time ?? null,
       )
       .run();
 
-    return result.meta.last_row_id;
+    const newEntry = await this.getEntryById(result.meta.last_row_id);
+    return newEntry!;
   }
 
   async updateEntry(
-    notionId: string,
+    id: number,
     entry: Partial<Omit<EnvironmentHubRecord, 'id' | 'created_at' | 'updated_at'>>,
-  ): Promise<void> {
+  ): Promise<EnvironmentHubRecord> {
     const fields: string[] = [];
     const values: unknown[] = [];
 
     Object.entries(entry).forEach(([key, value]) => {
-      if (key !== 'notion_id') {
+      if (key !== 'id') {
         fields.push(`${key} = ?`);
         values.push(value);
       }
     });
 
-    if (fields.length === 0) return;
+    if (fields.length > 0) {
+      values.push(id);
+      await this.db.prepare(`UPDATE environment_hub SET ${fields.join(', ')} WHERE id = ?`).bind(...values).run();
+    }
 
-    values.push(notionId);
-
-    await this.db.prepare(`UPDATE environment_hub SET ${fields.join(', ')} WHERE notion_id = ?`).bind(...values).run();
+    const updated = await this.getEntryById(id);
+    return updated!;
   }
 
-  async deleteEntry(notionId: string): Promise<void> {
-    await this.db.prepare('DELETE FROM environment_hub WHERE notion_id = ?').bind(notionId).run();
+  async deleteEntry(id: number): Promise<void> {
+    await this.db.prepare('DELETE FROM environment_hub WHERE id = ?').bind(id).run();
   }
 
   // === Sync Log ===

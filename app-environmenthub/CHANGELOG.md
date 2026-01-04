@@ -4,21 +4,35 @@ All notable changes to the Environment Hub tenant will be documented here.
 
 ## [Unreleased]
 
+## [1.0.0] — 2026-01-04
+
+### Phase 2.7 - Architecture Refactor ✅ (Complete)
+- **BREAKING CHANGE**: Pivoted from Notion-sync to D1-primary architecture
+- Removed all Notion integration code (lib/notion, lib/sync directories)
+- Removed scheduled sync handler - no more background jobs
+- Removed cron triggers from all wrangler configurations
+- Updated D1 schema: `notion_id` field now nullable
+- Implemented full CRUD API endpoints (POST/PUT/DELETE /api/v1/entries)
+- Built comprehensive dashboard UI with Add/Edit/Delete modal forms
+- Validated on staging: https://environmenthub-stg.mrrainbowsmoke.workers.dev
+- Production ready (deployment on hold per user request)
+
+**Rationale**: Notion API integration proved problematic (authentication format issues). D1-primary architecture is simpler, faster, fully Cloudflare-native, and provides better control.
+
 ### Phase 2.5 - Staging Deployment ✅ (Complete - 2026-01-04)
 - Successfully deployed worker to staging at `https://environmenthub-stg.mrrainbowsmoke.workers.dev`
 - Verified all bindings (D1, KV, environment variables) load correctly
 - Confirmed Cloudflare Access middleware enforces authentication in production environment
 - Tested local development workflow with wrangler dev
 - Validated API health endpoint and dashboard rendering
-- Ready for production deployment after real Notion credentials testing
 
 ### Phase 2 - Worker Implementation ✅ (Complete)
-- TypeScript type definitions for Notion payloads, D1 records, and API contracts
-- Notion API client with pagination and error handling
-- D1 database client with CRUD, filtering, pagination, and sync log helpers
-- Sync engines for Notion → D1 and D1 → Notion with sync log tracking
-- Hono middleware (logger, error handler, Cloudflare Access verification), API routes, dashboard HTML/JS view
-- Worker entrypoint with scheduled sync trigger; source synced to dev/stg/prd directories
+- TypeScript type definitions for D1 records and API contracts
+- D1 database client with CRUD, filtering, pagination
+- Hono middleware (logger, error handler, Cloudflare Access verification)
+- API routes with full CRUD operations
+- Dashboard HTML/JS view with interactive forms
+- Worker entrypoint; source synced to dev/stg/prd directories
 
 ## [0.1.0] — 2026-01-03
 
