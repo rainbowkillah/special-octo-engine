@@ -6,12 +6,17 @@ Centralized dashboard for managing environment variables, secrets, and Cloudflar
 
 Environment Hub provides a unified interface for tracking and managing configuration across multiple tenants and environments. It synchronizes bidirectionally with a Notion database (source of truth) and stores data in Cloudflare D1 for fast querying and dashboard display.
 
+## Status
+
+- **Phase 2 Complete**: Worker, sync engines (Notion → D1 and D1 → Notion), Access middleware, API routes, dashboard, and scheduled syncs are implemented in dev/stg/prd source trees.
+- **Next**: Deploy to staging, run end-to-end syncs with real data, and polish dashboard UX if needed.
+
 ## Features
 
-- **Bidirectional Sync**: Notion ↔ Cloudflare D1
+- **Bidirectional Sync**: Notion ↔ Cloudflare D1 (Notion remains source of truth)
 - **Web Dashboard**: Simple HTML/CSS/JS interface for browsing and managing configs
-- **REST API**: CRUD operations for programmatic access
-- **Cloudflare Access**: Enterprise-grade authentication and authorization
+- **REST API**: CRUD-style reads plus sync triggers, masking sensitive values by default
+- **Cloudflare Access**: JWT verification against Access JWKS with dev bypass header for local runs
 - **Secret Masking**: Sensitive values are masked in the UI by default
 - **Scheduled Syncs**: Automatic sync from Notion at configurable intervals
 - **Audit Logging**: Track all changes and sync operations
@@ -65,15 +70,21 @@ npm install
 
 # Set up local secrets
 cp .dev.vars.example .dev.vars
-# Edit .dev.vars with your Notion API key and database ID
+# Edit .dev.vars with your Notion API key, database ID, and Access values
 
 # Run locally with D1 local mode
-wrangler dev src/index.ts --local --test-scheduled
+wrangler dev src/index.ts --local --test-scheduled --var ENV=dev
 
-# Test manual sync
+# Test manual syncs
 curl -X POST http://localhost:8787/api/v1/sync \
   -H "Content-Type: application/json" \
+  -H "CF-Access-Jwt-Assertion: <access_jwt_or_set_x-dev-bypass:true>" \
   -d '{"direction": "notion_to_d1"}'
+
+curl -X POST http://localhost:8787/api/v1/sync \
+  -H "Content-Type: application/json" \
+  -H "CF-Access-Jwt-Assertion: <access_jwt_or_set_x-dev-bypass:true>" \
+  -d '{"direction": "d1_to_notion"}'
 ```
 
 ## Deployment
@@ -103,6 +114,8 @@ wrangler secret put NOTION_API_KEY --env dev
 wrangler secret put NOTION_DATABASE_ID --env dev
 wrangler secret put CF_ACCESS_TEAM_NAME --env dev
 wrangler secret put CF_ACCESS_AUD --env dev
+wrangler secret put CF_ACCESS_CLIENT_ID --env dev
+wrangler secret put CF_ACCESS_CLIENT_SECRET --env dev
 ```
 
 ### Environment Variables
@@ -151,7 +164,7 @@ Each environment has its own D1 database bound as `DB`.
 
 ### Authentication
 
-All routes are protected by Cloudflare Access. Users must authenticate via SSO before accessing the dashboard or API.
+All routes are protected by Cloudflare Access. Users must authenticate via SSO or supply a valid Access JWT. For local runs you can set header `x-dev-bypass: true` to skip Access.
 
 ### Secret Handling
 
@@ -165,9 +178,9 @@ All routes are protected by Cloudflare Access. Users must authenticate via SSO b
 ### Conflict Resolution
 
 When both Notion and D1 have changes to the same entry:
-- **Notion always wins** - Notion is the source of truth
-- D1 changes are overwritten during sync
-- Conflicts are logged in `sync_log` table for audit purposes
+- **Notion wins** for incoming syncs (Notion → D1)
+- D1 → Notion updates push current D1 values back to Notion (ensure select/multi-select options exist)
+- Conflicts and sync metadata are logged in `sync_log`
 
 ## Monitoring
 
