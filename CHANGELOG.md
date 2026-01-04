@@ -7,6 +7,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ### Added
+- **Environment Hub - Phase 2.5 Complete** ✅: Staging deployment and validation
+  - Deployed worker to staging at `https://environmenthub-stg.mrrainbowsmoke.workers.dev`
+  - Verified all environment bindings (D1, KV) and middleware (Access, logging, error handling)
+  - Confirmed scheduled sync cron triggers registered successfully (hourly in staging)
+  - Validated local development workflow with wrangler dev and bypass headers
+  - Tested API endpoints and dashboard rendering in both local and staging environments
+  - Access authentication enforcement confirmed (401 responses without JWT)
 - **Environment Hub - Phase 2 Complete**: Worker implementation across dev/stg/prd.
   - Types for Env, Notion payloads, D1 records, and API contracts
   - Notion client + transformer, D1 client with CRUD/filtering, sync engines (Notion → D1, D1 → Notion)

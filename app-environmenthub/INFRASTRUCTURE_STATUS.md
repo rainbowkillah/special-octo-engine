@@ -1,7 +1,15 @@
 # Environment Hub Infrastructure Status
 
-**Last Updated**: 2026-01-03 20:10 UTC
-**Status**: ✅ Phase 1 Complete - Infrastructure Ready
+**Last Updated**: 2026-01-04 00:30 UTC  
+**Status**: ✅ Phase 2.5 Complete - Staging Deployed
+
+## Deployment Status
+
+| Environment | Status | URL | Version |
+|------------|--------|-----|---------|
+| **Development** | ⚙️ Local | http://localhost:8787 | Local |
+| **Staging** | ✅ Live | https://environmenthub-stg.mrrainbowsmoke.workers.dev | c2ffb2e6-3c9c-4928-a5b2-dcb3dd8c67db |
+| **Production** | ⏳ Pending | TBD | N/A |
 
 ## Completed Setup
 
