@@ -8,8 +8,17 @@ Environment Hub provides a unified interface for tracking and managing configura
 
 ## Status
 
-- **Phase 2 Complete**: Worker, sync engines (Notion → D1 and D1 → Notion), Access middleware, API routes, dashboard, and scheduled syncs are implemented in dev/stg/prd source trees.
-- **Next**: Deploy to staging, run end-to-end syncs with real data, and polish dashboard UX if needed.
+- **Phase 1 Complete** ✅: Infrastructure (D1, KV, schema, wrangler config)
+- **Phase 2 Complete** ✅: Worker implementation (types, clients, sync engines, API, dashboard)
+- **Phase 2.5 Complete** ✅: Staging deployed and validated
+- **Phase 2.7 In Progress** 🟡: Authentication troubleshooting and real data testing
+
+**Current Focus:** Resolving authentication issues and testing with real Notion credentials.
+
+**See Also:**
+- [Phase 2.7 Plan](../.llm/plans/PHASE2_7_PLAN.md) - Detailed testing and production readiness plan
+- [Authentication Troubleshooting](./AUTH_TROUBLESHOOTING.md) - Step-by-step auth debugging guide
+- [Deployment Status](./DEPLOYMENT_STATUS.md) - Current deployment state across environments
 
 ## Features
 

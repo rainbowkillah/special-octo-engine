@@ -7,6 +7,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [Unreleased]
 
 ### Added
+- **Environment Hub - Phase 2.7 Plan** 📋: Comprehensive testing and production readiness plan
+  - Created detailed task breakdown for authentication, secrets, sync testing, and monitoring
+  - Built [Phase 2.7 Quick Start Guide](app-environmenthub/PHASE2_7_QUICKSTART.md) with step-by-step instructions
+  - Created [Authentication Troubleshooting Guide](app-environmenthub/AUTH_TROUBLESHOOTING.md) for debugging Access issues
+  - Documented 6 main tasks with dependencies, success criteria, and risk mitigation
+  - Added optional enhancements roadmap (UX improvements, monitoring, testing, production)
+  - Current focus: Resolving authentication issues before proceeding with real data testing
 - **Environment Hub - Phase 2.5 Complete** ✅: Staging deployment and validation
   - Deployed worker to staging at `https://environmenthub-stg.mrrainbowsmoke.workers.dev`
   - Verified all environment bindings (D1, KV) and middleware (Access, logging, error handling)
